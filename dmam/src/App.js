@@ -7,6 +7,25 @@ import ComparingComponent from './ComparingComponent'
 
 const location = window.location
 
+const missArray = []
+
+const state = {
+  // url: '2',
+}
+let url = ''
+
+let isLoaded  = false
+
+const load = (url, cb = () => {}) => {
+  fetch(url)
+  cb([{}, {}])
+}
+
+function setUrl({target: {value: _url}}) {
+  url = _url
+  console.info('updated state.url', url)
+}
+
 function App() {
   return (
     <div className="App">
@@ -32,7 +51,11 @@ function App() {
             </Tab>
           ))}
         </TabNavigation> : [] }
-        <ComparingComponent year={2019}/>
+        {isLoaded ? <ComparingComponent missArray={missArray} year={2019}/> : <div>
+            <input value={url} onChange={setUrl}/>
+            {url || 'no'}
+            <Button onClick={load(url, data => {isLoaded = 0; missArray.push(...data)})}>Load misses</Button>
+          </div>}
       </section>
     </div>
   );
