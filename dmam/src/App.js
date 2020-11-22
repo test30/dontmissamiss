@@ -36,8 +36,9 @@ function App() {
       <header className="App-header">
 
         <Pane display="flex" padding={16} background="tint2" borderRadius={3}>
-          <Pane flex={1} alignItems="center" display="flex">
-            <Heading size={600}>Don't miss a miss (Nie przegap miss)</Heading>
+          <Pane flex={1} alignItems="center" display="block">
+            <Heading size={600}>Don't miss a miss (Nie przegap pewnej* miss)</Heading>
+            <small>* - gra słów</small>
           </Pane>
           <Pane>
             {/* Below you can see the marginRight property on a Button. */}
@@ -60,8 +61,9 @@ function App() {
           :
           <div>
             <input value={url} onChange={(ev) => setUrl(ev.target.value)}/>
-            {url}
             <Button onClick={() => load(url, data => {setisLoaded(true); setMissArray(missArray.concat(...data))})}>Load misses</Button>
+            <br/>
+            <img src={url} rel="noopener noreferrer"/>
           </div>
         }
       </section>
