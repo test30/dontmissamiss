@@ -4,13 +4,14 @@ import { TabNavigation, Tab } from 'evergreen-ui'
 import { Pane, Button, Text, Heading } from 'evergreen-ui'
 
 import ComparingComponent from './ComparingComponent'
+import { useState } from 'react';
 
 const location = window.location
 
 const missArray = []
 
 const state = {
-  // url: '2',
+  url: '2',
 }
 let url = ''
 
@@ -27,6 +28,7 @@ function setUrl({target: {value: _url}}) {
 }
 
 function App() {
+  const [url, setUrl] = useState('')
   return (
     <div className="App">
       <header className="App-header">
@@ -52,8 +54,8 @@ function App() {
           ))}
         </TabNavigation> : [] }
         {isLoaded ? <ComparingComponent missArray={missArray} year={2019}/> : <div>
-            <input value={url} onChange={setUrl}/>
-            {url || 'no'}
+            <input value={url} onChange={(ev) => setUrl(ev.target.value)}/>
+            {url}
             <Button onClick={load(url, data => {isLoaded = 0; missArray.push(...data)})}>Load misses</Button>
           </div>}
       </section>
