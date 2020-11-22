@@ -1,22 +1,12 @@
-import {ReactComponent as ReactLogo} from './logo.svg';
+import { Button } from 'evergreen-ui'
+
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <ReactLogo/>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Button>I am using 🌲 Evergreen!</Button>
       </header>
     </div>
   );
