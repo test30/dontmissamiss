@@ -7,8 +7,8 @@ import { Button, Heading } from 'evergreen-ui'
 const ComparingComponent = (props) => (
   <div className="ComparingComponentWrapper">
     <Heading>Która miss jest atrakcyjniejsza?</Heading>
-    <Button onClick={() => vote(1)}>Miss 1</Button>
-    <Button onClick={() => vote(2)}>Miss 2</Button>
+    {props.missArray.map((e, i) => <Button key={i} onClick={() => vote(i)}>Miss {i}</Button>)}
+    {/* {JSON.stringify(props.missArray)} */}
   </div>
 );
 

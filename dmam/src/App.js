@@ -8,27 +8,15 @@ import { useState } from 'react';
 
 const location = window.location
 
-const missArray = []
-
-const state = {
-  url: '2',
-}
-let url = ''
-
-let isLoaded  = false
-
 const load = (url, cb = () => {}) => {
   fetch(url)
   cb([{}, {}])
 }
 
-function setUrl({target: {value: _url}}) {
-  url = _url
-  console.info('updated state.url', url)
-}
-
 function App() {
+  const [isLoaded, setisLoaded] = useState(false)
   const [url, setUrl] = useState('')
+  const [missArray, setMissArray] = useState([])
   return (
     <div className="App">
       <header className="App-header">
@@ -53,11 +41,15 @@ function App() {
             </Tab>
           ))}
         </TabNavigation> : [] }
-        {isLoaded ? <ComparingComponent missArray={missArray} year={2019}/> : <div>
+        {isLoaded ? 
+          <ComparingComponent missArray={missArray} year={2019}/>
+          :
+          <div>
             <input value={url} onChange={(ev) => setUrl(ev.target.value)}/>
             {url}
-            <Button onClick={load(url, data => {isLoaded = 0; missArray.push(...data)})}>Load misses</Button>
-          </div>}
+            <Button onClick={() => load(url, data => {setisLoaded(true); setMissArray(missArray.concat(...data))})}>Load misses</Button>
+          </div>
+        }
       </section>
     </div>
   );
