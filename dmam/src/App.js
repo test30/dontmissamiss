@@ -2,9 +2,15 @@ import './App.css';
 
 import { TabNavigation, Tab } from 'evergreen-ui'
 import { Pane, Button, Text, Heading } from 'evergreen-ui'
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 import ComparingComponent from './ComparingComponent'
 import { useState } from 'react';
+
+import demoImg from './assets/model-1954084_640.jpg'
+
+import manual from './assets/demo1.jpg'
 
 const location = window.location
 
@@ -27,10 +33,19 @@ function getDefaultUrl(hash) {
   return arg.split('=')[1] || vals[0]
 }
 
+const defaultUrl = demoImg
+
+const defaultUrlDesc = `
+Obraz <a href="https://pixabay.com/pl/users/superferfilm-3895353/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1954084"> 
+Fernando Gimenez</a> z <a href="https://pixabay.com/pl/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1954084"> 
+Pixabay</a>
+`
+
 function App() {
   const [isLoaded, setisLoaded] = useState(false)
-  const [url, setUrl] = useState(getDefaultUrl(location.hash.substr(1)))
+  const [url, setUrl] = useState(getDefaultUrl(location.hash.substr(1)) || defaultUrl)
   const [missArray, setMissArray] = useState([])
+  const [crop, setCrop] = useState({ _aspect: 16 / 9 })
   return (
     <div className="App">
       <header className="App-header">
@@ -62,13 +77,24 @@ function App() {
           <div>
             <input value={url} onChange={(ev) => setUrl(ev.target.value)}/>
             <Button onClick={() => load(url, data => {setisLoaded(true); setMissArray(missArray.concat(...data))})}>Load misses</Button>
-            <br/>
-            <img src={url} rel="noopener noreferrer"/>
+            <div>
+              Porada: Wykonaj drag &amp; drop myszką, by zaznaczyć uczestniczkę.
+            </div>
+            {CropImg ? CropImg({src: url, crop, setCrop}) : <img src={url} rel="noopener noreferrer"/>}
           </div>
         }
       </section>
+      <section>
+        <h1>Jak korzystać?</h1>
+        <img src={manual} width="800" style={{opacity: 0.5}}/>
+      </section>
     </div>
   );
+}
+
+function CropImg({ src, crop, setCrop }) {
+  // const [crop, setCrop] = useState({ aspect: 16 / 9 });
+  return <ReactCrop src={src} crop={crop} onChange={newCrop => setCrop(newCrop)} />;
 }
 
 export default App;
