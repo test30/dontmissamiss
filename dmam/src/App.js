@@ -13,9 +13,23 @@ const load = (url, cb = () => {}) => {
   cb([{}, {}])
 }
 
+/**
+ * Gets first param or `api` param from location.hash-compatible string
+ * 
+ * http://localhost:3000/#api=http://localhost:1000
+ * http://localhost:3000/#http://localhost:1000
+ * 
+ * @param {*} hash e.g. url=https://randomuser.me/api
+ */
+function getDefaultUrl(hash) {
+  const vals = hash.split('&')
+  const arg = vals.find(e => e.split('=')[0] == 'api' || vals.length == 1)
+  return arg.split('=')[1] || vals[0]
+}
+
 function App() {
   const [isLoaded, setisLoaded] = useState(false)
-  const [url, setUrl] = useState('')
+  const [url, setUrl] = useState(getDefaultUrl(location.hash.substr(1)))
   const [missArray, setMissArray] = useState([])
   return (
     <div className="App">
